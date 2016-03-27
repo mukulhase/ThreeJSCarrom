@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Mukul Hase - Carrom - Three.js</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            font-family: Monospace;
+            background-color: #000;
+            color: #fff;
+            margin: 0px;
+            overflow: hidden;
+        }
+        #info {
+            color: #fff;
+            position: absolute;
+            top: 10px;
+            width: 100%;
+            text-align: center;
+            z-index: 100;
+            display:block;
+        }
+        #info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
+        #speed{
+            width:15vw;
+            position: absolute;
+            bottom: 0px;
+            display: block;
+        }
+        #points{
+            color: #f00;
+            font-weight: bold;
+            position: absolute;
+            font-size: xx-large;
+            right:0;
+            display: block;
+        }
+    </style>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/dot-luv/jquery-ui.css"/>
+</head>
+<script   src="https://code.jquery.com/jquery-2.2.2.min.js"   integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI="   crossorigin="anonymous"></script>
+<script   src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"   integrity="sha256-DI6NdAhhFRnO2k51mumYeDShet3I8AKCQf/tf7ARNhI="   crossorigin="anonymous"></script>
+<body>
+<div id="info">
+    LOADING
+    <div id="progress">
+    </div>
+</div>
+
+<div id="time">
+
+</div>
+<div id="points">
+
+</div>
+<div id="speed">
+    <h2>Speed</h2>
+    <div id="speedBar">
+
+    </div>
+</div>
+<script>
+    var ready=6;
+
+    $( "#progress" ).progressbar({
+        value: 0
+    });
+    var lo=setInterval(function(){
+        $( "#progress" ).progressbar({
+            value: (6-ready)*25
+        });
+        if(ready==0){
+            clearInterval(lo);
+            $( "#info").remove();
+        }
+    },10);
+
+</script>
+<script src="vector.js"></script>
+<script src="three.min.js"></script>
+
+<script src="js/controls/OrbitControls.js"></script>
+
+<script src="js/Detector.js"></script>
+<script src="setup.js" ></script>
+
+<script src="game.js" ></script>
+
+</body>
+</html>
