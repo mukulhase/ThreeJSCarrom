@@ -25,7 +25,7 @@ dataLoader();
 loadGame();
 function speedBarUpdate(){
     $( "#speedBar" ).progressbar({
-        value: speed
+        value: speed*2
     });
 }
 
@@ -43,9 +43,9 @@ function update(){
             if(hold['r'])
                 moveStricker("r");
             if(hold['u'])
-                speed++;
+                speedChange('u');
             if(hold['d'])
-                speed--;
+                speedChange("d");
             var geometry = new THREE.Geometry();
             var material = new THREE.LineBasicMaterial({
                 color: 0xFF0000,
@@ -270,16 +270,31 @@ function placeCoins(){
     createCoin((-4/1.41)*cr,(4/1.41)*cr,0);
     stricker = createCoin(0,250,2) - 1;
 }
+function speedChange(arg){
+    switch(arg){
+        case "u":
+            if(speed<50)
+                speed++;
+            break;
+        case "d":
+            if(speed>0)
+                speed--;
+            break;
+    }
+}
 function moveStricker(arg){
     switch(arg){
         case "l":
-            coins[stricker].x--;
+            if(coins[stricker].x>-230)
+                coins[stricker].x--;
             break;
         case "r":
-            coins[stricker].x++;
+            if(coins[stricker].x<230)
+                coins[stricker].x++;
             break;
     }
-    changeView("stricker");
+    controls.target.set( coins[stricker].x, 0, coins[stricker].z );
+    controls.update();
 }
 function shootStricker(){
     var s= speed;
