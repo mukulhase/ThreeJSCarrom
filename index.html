@@ -48,6 +48,8 @@
     Your browser does not support the audio element.
 </audio>
 <div id="toggleMus">Toggle Music</div>
+<div id="endGame">End Game</div>
+<div id="dialog-message" title="Game Ended!"></div>
 <div id="info">
     LOADING
     <div id="progress">
@@ -68,15 +70,7 @@
 </div>
 <script>
     var ready=6;
-    $( "#toggleMus" )
-            .button()
-            .click(function( event ) {
-                var x = document.getElementById("bgmusic");
-                if(x.paused)x.play();else{x.pause()}
-            });
-    $( "#progress" ).progressbar({
-        value: 0
-    });
+
     var lo=setInterval(function(){
         $( "#progress" ).progressbar({
             value: (6-ready)*25
@@ -86,7 +80,30 @@
             $( "#info").remove();
         }
     },10);
+    $(function() {
 
+        $( "#endGame" )
+                .button()
+                .click(function( event ) {
+                    $( "#dialog-message").text("Your Score:- " + points).dialog({
+                        modal: true,
+                        buttons: {
+                            Retry: function() {
+                                location.reload();
+                            }
+                        }
+                    });
+                });
+        $( "#toggleMus" )
+                .button()
+                .click(function( event ) {
+                    var x = document.getElementById("bgmusic");
+                    if(x.paused)x.play();else{x.pause()}
+                });
+        $( "#progress" ).progressbar({
+            value: 0
+        });
+    });
 </script>
 <script src="vector.js"></script>
 <script src="three.min.js"></script>

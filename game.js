@@ -132,9 +132,11 @@ function scoreChange(color){
             }
             break;
         case 2:
+            bad.play();
             points-=20;
             break;
         case 0:
+            bad.play();
             points -=20;
             break;
     }
