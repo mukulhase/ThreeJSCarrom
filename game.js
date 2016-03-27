@@ -16,9 +16,11 @@ var pointer;
 var timer=5;
 var points=100;
 var active=false;
+var red=-1;
 window.addEventListener("keyup", keyboardUP, false);
 window.addEventListener("keydown", keyboardDOWN, false);
-
+var good = new Audio("good.mp3"); // buffers automatically when created
+var bad = new Audio("bad.mp3");
 dataLoader();
 loadGame();
 function speedBarUpdate(){
@@ -116,25 +118,29 @@ function updateCoinPos(){
         coins[coin].z+=coins[coin].vz;
     }
 }
-var red=false;
 function scoreChange(color){
     switch(color){
-        case 0:
-            red=true;
+        case 3:
+            red=2;
             break;
         case 1:
+            good.play();
             points+=5;
-            if(red)points+=20;
+            if(red>=0){
+                points+=20;
+                red=0;
+            }
             break;
         case 2:
             points-=20;
             break;
-        case 3:
+        case 0:
             points -=20;
             break;
     }
 }
 function checkDrop(){
+
     var thresh = 330;
     for(var coin in coins){
         if(Math.abs(coins[coin].x)>thresh && Math.abs(coins[coin].z)>thresh){
@@ -147,6 +153,11 @@ function checkDrop(){
                 stricker--;
             }else if(coin==stricker){
                 setStricker();
+            }else if(coin>stricker){
+                scene.remove(temp[coin]);
+                coins.splice(coin,1);
+                temp.splice(coin,1);
+                coin--;
             }
         }
     }
@@ -198,6 +209,12 @@ function coinRender(){
     }
 }
 function setStricker(){
+    red--;
+    console.log("red"+ red);
+    if(red==0){
+        createCoin(0,0,3);
+    }
+
     active=false;
     coins[stricker].x = 0;
     coins[stricker].z = 250;
@@ -232,28 +249,24 @@ function createCoin(x,z,c){
     coin['vz']=0;
     coin['rad']=coinradius[c];
     coin['lGP']={x:x,z:z};
-    return coin;
+    cylinder = new THREE.CylinderGeometry(coinradius[c] * s, coinradius[c] * s, 10, 32);
+    index=coins.length;
+    temp[index] = new THREE.Mesh(cylinder, materials[c]);
+    scene.add(temp[index]);
+    return coins.push(coin);
 }
 function placeCoins(){
     cr = coinradius[0]*s;
-    coins.push(createCoin(0,0,3));
-    coins.push(createCoin(4*cr,0,1));
-    coins.push(createCoin(-4*cr,0,1));
-    coins.push(createCoin(0,4*cr,1));
-    coins.push(createCoin(0,-4*cr,1));
-    coins.push(createCoin((-4/1.41)*cr,(-4/1.41)*cr,0));
-    coins.push(createCoin((4/1.41)*cr,(-4/1.41)*cr,0));
-    coins.push(createCoin((4/1.41)*cr,(4/1.41)*cr,0));
-    coins.push(createCoin((-4/1.41)*cr,(4/1.41)*cr,0));
-    console.log(coins);
-    stricker = coins.push(createCoin(0,250,2)) - 1;
-    var cylinder;
-    for (var coin in coins) {
-        cylinder = new THREE.CylinderGeometry(coinradius[coins[coin].c] * s, coinradius[coins[coin].c] * s, 10, 32);
-        temp[coin] = new THREE.Mesh(cylinder, materials[coins[coin].c]);
-        scene.add(temp[coin]);
-    }
-
+    createCoin(0,0,3);
+    createCoin(4*cr,0,1);
+    createCoin(-4*cr,0,1);
+    createCoin(0,4*cr,1);
+    createCoin(0,-4*cr,1);
+    createCoin((-4/1.41)*cr,(-4/1.41)*cr,0);
+    createCoin((4/1.41)*cr,(-4/1.41)*cr,0);
+    createCoin((4/1.41)*cr,(4/1.41)*cr,0);
+    createCoin((-4/1.41)*cr,(4/1.41)*cr,0);
+    stricker = createCoin(0,250,2) - 1;
 }
 function moveStricker(arg){
     switch(arg){
@@ -293,6 +306,9 @@ function keyboardUP(e){
             break;
         case 66:
             changeView("default");
+            break;
+        case 67:
+            console.log(coins, temp);
             break;
         case 32:
             shootStricker();

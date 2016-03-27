@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <title>Mukul Hase - Carrom - Three.js</title>
@@ -42,6 +43,11 @@
 <script   src="https://code.jquery.com/jquery-2.2.2.min.js"   integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI="   crossorigin="anonymous"></script>
 <script   src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"   integrity="sha256-DI6NdAhhFRnO2k51mumYeDShet3I8AKCQf/tf7ARNhI="   crossorigin="anonymous"></script>
 <body>
+<audio id="bgmusic" loop preload>
+    <source src="LDRFREAKPIANO.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+</audio>
+<div id="toggleMus">Toggle Music</div>
 <div id="info">
     LOADING
     <div id="progress">
@@ -62,7 +68,12 @@
 </div>
 <script>
     var ready=6;
-
+    $( "#toggleMus" )
+            .button()
+            .click(function( event ) {
+                var x = document.getElementById("bgmusic");
+                if(x.paused)x.play();else{x.pause()}
+            });
     $( "#progress" ).progressbar({
         value: 0
     });
