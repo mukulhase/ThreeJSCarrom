@@ -297,11 +297,13 @@ function moveStricker(arg){
     controls.update();
 }
 function shootStricker(){
-    var s= speed;
-    var angle = Math.atan2((coins[stricker].x - camera.position.x),(coins[stricker].z - camera.position.z));
-    coins[stricker].vx=s*Math.sin(angle);
-    coins[stricker].vz=s*Math.cos(angle);
-    active = true;
+    if(!active){
+        var s= speed;
+        var angle = Math.atan2((coins[stricker].x - camera.position.x),(coins[stricker].z - camera.position.z));
+        coins[stricker].vx=s*Math.sin(angle);
+        coins[stricker].vz=s*Math.cos(angle);
+        active = true;
+    }
 }
 function keyboardUP(e){
     console.log(e.keyCode);
