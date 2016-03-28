@@ -56,6 +56,7 @@
 <div id="Speedp">Speed+</div>
 <div id="Speedm">Speed-</div>
 <div id="dialog-message" title="Game Ended!"></div>
+<div id="dialog-message-info" title="INFO"></div>
 <div id="info">
     LOADING
     <div id="progress">
@@ -90,7 +91,7 @@
         $( "#about" )
                 .button()
                 .click(function( event ) {
-                    $( "#dialog-message").html("Shoot:-  < Space > <br>Speed:- < Up/Down > <br>Move Stricker:- < Left/Right > <br>Toggle Views:- < a/b >").dialog({
+                    $( "#dialog-message-info").html("Shoot:-  < Space > <br>Speed:- < Up/Down > <br>Move Stricker:- < Left/Right > <br>Toggle Views:- < a/b >").dialog({
                         modal: true,
                         buttons: {
                             Ok: function() {
