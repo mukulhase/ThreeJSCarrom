@@ -183,7 +183,7 @@ function coinRender(){
         temp[coin].position.z=coins[coin].z;
     }
     //friction
-    var friction = 0.05;
+    var friction = 0.1;
     for(var coin in coins){
         var angle = Math.atan2(coins[coin].vx,coins[coin].vz);
         if(coins[coin].vx > (friction * Math.abs(Math.sin(angle))))
@@ -274,11 +274,11 @@ function speedChange(arg){
     switch(arg){
         case "u":
             if(speed<50)
-                speed++;
+                speed+=0.5;
             break;
         case "d":
             if(speed>0)
-                speed--;
+                speed-=0.5;
             break;
     }
 }

@@ -47,8 +47,14 @@
     <source src="LDRFREAKPIANO.mp3" type="audio/mpeg" />
     Your browser does not support the audio element.
 </audio>
+<div id=about>Info</div>
 <div id="toggleMus">Toggle Music</div>
 <div id="endGame">End Game</div>
+<div id="FullView">Full View</div>
+<div id="StrickerView">Stricker View</div>
+<div id="Shoot">Shoot!</div>
+<div id="Speedp">Speed+</div>
+<div id="Speedm">Speed-</div>
 <div id="dialog-message" title="Game Ended!"></div>
 <div id="info">
     LOADING
@@ -81,7 +87,18 @@
         }
     },10);
     $(function() {
-
+        $( "#about" )
+                .button()
+                .click(function( event ) {
+                    $( "#dialog-message").html("Shoot:-  < Space > <br>Speed:- < Up/Down > <br>Move Stricker:- < Left/Right > <br>Toggle Views:- < a/b >").dialog({
+                        modal: true,
+                        buttons: {
+                            Ok: function() {
+                                $( this ).dialog( "close" );
+                            }
+                        }
+                    });
+                });
         $( "#endGame" )
                 .button()
                 .click(function( event ) {
@@ -99,6 +116,31 @@
                 .click(function( event ) {
                     var x = document.getElementById("bgmusic");
                     if(x.paused)x.play();else{x.pause()}
+                });
+        $( "#FullView" )
+                .button()
+                .click(function( event ) {
+                    changeView("default");
+                });
+        $( "#StrickerView" )
+                .button()
+                .click(function( event ) {
+                    changeView("stricker");
+                });
+        $( "#Shoot" )
+                .button()
+                .click(function( event ) {
+                    shootStricker();
+                });
+        $( "#Speedp" )
+                .button()
+                .click(function( event ) {
+                    speedChange('u');
+                });
+        $( "#Speedm" )
+                .button()
+                .click(function( event ) {
+                    speedChange('d');
                 });
         $( "#progress" ).progressbar({
             value: 0
