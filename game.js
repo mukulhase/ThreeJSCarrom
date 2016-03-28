@@ -29,7 +29,7 @@ function speedBarUpdate(){
     });
 }
 
-setInterval(update,25);
+setInterval(update,5);
 function update(){
     coinRender();
     speedBarUpdate();
@@ -183,7 +183,7 @@ function coinRender(){
         temp[coin].position.z=coins[coin].z;
     }
     //friction
-    var friction = 0.3;
+    var friction = 0.05;
     for(var coin in coins){
         var angle = Math.atan2(coins[coin].vx,coins[coin].vz);
         if(coins[coin].vx > (friction * Math.abs(Math.sin(angle))))
