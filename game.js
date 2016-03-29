@@ -17,11 +17,13 @@ var timer=5;
 var points=100;
 var active=false;
 var red=-1;
+var replayTest=false;
 window.addEventListener("keyup", keyboardUP, false);
 window.addEventListener("keydown", keyboardDOWN, false);
 var good = new Audio("good.mp3"); // buffers automatically when created
 var bad = new Audio("bad.mp3");
 var tick = new Audio("tick.mp3");
+var previousState = {};
 dataLoader();
 loadGame();
 function speedBarUpdate(){
@@ -172,6 +174,10 @@ function checkDrop(){
     }
 }
 function coinRender(){
+    if(replayTest){
+        replay();
+        replayTest=false;
+    }
     checkDrop();
     updateCoinPos();
     checkWallCollision(coins);
@@ -304,12 +310,31 @@ function moveStricker(arg){
     controls.target.set( coins[stricker].x, 0, coins[stricker].z );
     controls.update();
 }
+function replay(){
+    if(previousState){
+        active=true;
+        stricker=previousState.stricker;
+        coins=$.extend(true, [], previousState.coins);
+        temp=$.extend(true, [], previousState.temp);
+        red = previousState.red;
+        scene = $.extend(true, [], previousState.scene);
+        points = previousState.points;
+    }
+}
 function shootStricker(){
     if(!active){
         var s= speed;
         var angle = Math.atan2((coins[stricker].x - camera.position.x),(coins[stricker].z - camera.position.z));
         coins[stricker].vx=s*Math.sin(angle);
         coins[stricker].vz=s*Math.cos(angle);
+        previousState = {
+            "stricker":stricker,
+            "coins":$.extend(true, [], coins),
+            "temp": $.extend(true, [], temp),
+            "red" : red,
+            "scene":$.extend(true, [], scene),
+            "points":points
+        };
         active = true;
     }
 }
@@ -336,6 +361,10 @@ function keyboardUP(e){
             break;
         case 67:
             changeView("top");
+            break;
+        case 82:
+            console.log("Replaying");
+            replayTest=true;
             break;
         case 32:
             shootStricker();
