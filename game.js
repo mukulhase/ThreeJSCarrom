@@ -21,6 +21,7 @@ window.addEventListener("keyup", keyboardUP, false);
 window.addEventListener("keydown", keyboardDOWN, false);
 var good = new Audio("good.mp3"); // buffers automatically when created
 var bad = new Audio("bad.mp3");
+var tick = new Audio("tick.mp3");
 dataLoader();
 loadGame();
 function speedBarUpdate(){
@@ -71,10 +72,16 @@ function changeView(arg){
             camera.position.set( coins[stricker].x, 200, coins[stricker].z+300 );
             controls.update();
             break;
+        case "top":
+            controls.target.set( 0, 0, 0 );
+            camera.position.set( 0, 1000, 0);
+            controls.update();
+            break;
         case "default":
             controls.target.set( 0, 0, 0 );
             camera.position.set( 0, 500, 700 );
             controls.update();
+            break;
     }
 }
 function dataLoader() {
@@ -173,6 +180,7 @@ function coinRender(){
         for (var j in ballArray) {
             if (ballArray[i] != ballArray[j]) {
                 if (checkBallCollision(i, j)) {
+                    tick.play();
                     ballCollisionResponse(i, j);
                 }
             }
@@ -327,7 +335,7 @@ function keyboardUP(e){
             changeView("default");
             break;
         case 67:
-            console.log(coins, temp);
+            changeView("top");
             break;
         case 32:
             shootStricker();
@@ -357,10 +365,14 @@ function checkWallCollision(coins) {
         if (ballArray[i].x + ballArray[i].rad >= canvas_Width || ballArray[i].x - ballArray[i].rad <= -canvas_Width) {
             ballArray[i].vx=-ballArray[i].vx;
             ballArray[i].position = ballArray[i].lGP.x;
+            tick.play();
         }
         if (ballArray[i].z - ballArray[i].rad <= -canvas_Height || ballArray[i].z + ballArray[i].rad >= canvas_Height) {
             ballArray[i].vz=-ballArray[i].vz;
             ballArray[i].z = ballArray[i].lGP.z;
+            var bad = new Audio("bad.mp3");
+            tick.play();
+
         }
     }
 }
@@ -372,7 +384,6 @@ function checkBallCollision(arg1, arg2) {
     var distanceBetween = Math.sqrt((xDistance * xDistance) + (yDistance *yDistance));
 
     var sumOfRadius = ((coinradius[ball1.c]+coinradius[ball2.c])*s); // add the balls radius together
-
     return distanceBetween < sumOfRadius;
 }
 function ballCollisionResponse(arg1, arg2) {

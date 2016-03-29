@@ -50,7 +50,8 @@
 <div id=about>Info</div>
 <div id="toggleMus">Toggle Music</div>
 <div id="endGame">End Game</div>
-<div id="FullView">Full View</div>
+<div id="FullView">Player Cam</div>
+<div id="TopView">Top View</div>
 <div id="StrickerView">Stricker View</div>
 <div id="Shoot">Shoot!</div>
 <div id="Speedp">Speed+</div>
@@ -127,6 +128,11 @@
                 .button()
                 .click(function( event ) {
                     changeView("stricker");
+                });
+        $( "#TopView" )
+                .button()
+                .click(function( event ) {
+                    changeView("top");
                 });
         $( "#Shoot" )
                 .button()
