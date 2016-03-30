@@ -24,6 +24,14 @@ var good = new Audio("good.mp3"); // buffers automatically when created
 var bad = new Audio("bad.mp3");
 var tick = new Audio("tick.mp3");
 var previousState = {};
+var gamespeed = 5;
+var friction = 0.1;
+
+var conf = prompt("Is your device fast? (y/n)");
+if (conf=='n'){
+    var gamespeed = 25;
+    var friction = 0.3;
+}
 dataLoader();
 loadGame();
 function speedBarUpdate(){
@@ -32,7 +40,7 @@ function speedBarUpdate(){
     });
 }
 
-setInterval(update,5);
+setInterval(update,gamespeed);
 function update(){
     coinRender();
     speedBarUpdate();
@@ -197,7 +205,6 @@ function coinRender(){
         temp[coin].position.z=coins[coin].z;
     }
     //friction
-    var friction = 0.1;
     for(var coin in coins){
         var angle = Math.atan2(coins[coin].vx,coins[coin].vz);
         if(coins[coin].vx > (friction * Math.abs(Math.sin(angle))))
